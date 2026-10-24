@@ -18,7 +18,7 @@ import z from 'zod'
 export const Route = createFileRoute('/(shop)/products/$productId')({
   validateSearch: zodValidator(
     z.object({
-      category: z.string(),
+      category: z.string().optional(),
     }),
   ),
   component: ProductDetail,

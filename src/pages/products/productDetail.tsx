@@ -30,7 +30,13 @@ const ProductDetail = () => {
 
   // /prodcuts/
 
-  return <div>{product?.title}</div>
+  return (
+    <div>
+      <img src={product?.thumbnail} alt="" />
+
+      <p>{product?.title}</p>
+    </div>
+  )
 }
 
 export default ProductDetail
