@@ -1,32 +1,32 @@
 import { Skeleton } from '#/components/ui/skeleton'
-import type { IProduct } from '#/types'
+import { getProductsQuery } from '#/services/products/queries'
 import { Link } from '@tanstack/react-router'
-import axios from 'axios'
-import { useEffect, useState } from 'react'
 
 const HomePage = () => {
-  const [products, setProducts] = useState<IProduct[]>([])
-  const [isLoading, setIsLoading] = useState(false)
-  useEffect(() => {
-    ;(async () => {
-      setIsLoading(true)
-      const response = await axios.get<{
-        products: IProduct[]
-      }>(' https://dummyjson.com/products')
-      setIsLoading(false)
-      setProducts(response.data.products)
-    })()
-  }, [])
+  const { data: products, isPending } = getProductsQuery()
 
-  console.log(products)
+  // const [products, setProducts] = useState<IProduct[]>([])
+  // const [isLoading, setIsLoading] = useState(false)
+
+  // useEffect(() => {
+  //   ;(async () => {
+  //     setIsLoading(true)
+  //     const response = await axios.get<{
+  //       products: IProduct[]
+  //     }>(' https://dummyjson.com/products')
+  //     setIsLoading(false)
+  //     setProducts(response.data.products)
+  //   })()
+  // }, [])
+
   return (
     <div className="grid grid-cols-4 gap-3">
-      {isLoading &&
+      {isPending &&
         new Array(12).fill(0).map((_, idx) => {
           return <Skeleton key={idx} className="h-40 w-full" />
         })}
 
-      {products.map((p) => (
+      {products?.map((p) => (
         <div className="" key={p.id}>
           <Link
             to="/products/$productId"

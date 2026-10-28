@@ -1,17 +1,22 @@
-import { Outlet, createRootRoute } from '@tanstack/react-router'
+import {
+  Outlet,
+  createRootRoute,
+  createRootRouteWithContext,
+} from '@tanstack/react-router'
 
 import { TanStackRouterDevtoolsPanel } from '@tanstack/react-router-devtools'
 import { TanStackDevtools } from '@tanstack/react-devtools'
 
 import '../styles.css'
 import Header from '#/components/layouts/header'
+import type { QueryClient } from '@tanstack/react-query'
 
-export const Route = createRootRoute({
+interface MyRouterContext {
+  queryClient: QueryClient
+}
+
+export const Route = createRootRouteWithContext<MyRouterContext>()({
   component: RootComponent,
-  // errorComponent: ({ error }) => {
-  //   // Render an error message
-  //   return <div>{error instanceof Error ? error.message : String(error)}</div>
-  // },
 })
 
 function RootComponent() {
