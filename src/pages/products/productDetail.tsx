@@ -1,32 +1,26 @@
-import type { IProduct } from '#/types'
-import { useLocation, useParams } from '@tanstack/react-router'
-import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { getProductQuery } from '#/services/products/queries'
+import { useParams } from '@tanstack/react-router'
 
 const ProductDetail = () => {
-  const [product, setProduct] = useState<IProduct | null>(null)
   const { productId } = useParams({ from: '/(shop)/products/$productId' })
-  const [categories, setCategories] = useState([])
 
-  const { search } = useLocation()
+  const { data: product } = getProductQuery(productId)
 
-  useEffect(() => {
-    ;(async () => {
-      const response = await axios.get<IProduct>(
-        `https://dummyjson.com/products/${productId}`,
-      )
-      setProduct(response.data)
-    })()
+  // useEffect(() => {
+  //   ;(async () => {
+  //     const response = await axios.get<IProduct>(
+  //       `https://dummyjson.com/products/${productId}`,
+  //     )
+  //     setProduct(response.data)
+  //   })()
 
-    ;(async () => {
-      const response = await axios.get(
-        `https://dummyjson.com/products/category/${search.category}`,
-      )
-      setCategories(response.data)
-    })()
-  }, [])
-
-  console.log(categories)
+  //   ;(async () => {
+  //     const response = await axios.get(
+  //       `https://dummyjson.com/products/category/${search.category}`,
+  //     )
+  //     setCategories(response.data)
+  //   })()
+  // }, [])
 
   // /prodcuts/
 

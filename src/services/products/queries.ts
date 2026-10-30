@@ -3,25 +3,29 @@ import { useQuery } from '@tanstack/react-query'
 import api from '../api'
 
 // get products
-const getProducts = async () => {
+const getProducts = async (tab: string) => {
   const response = await api.get<{
     products: IProduct[]
-  }>('products')
+  }>(tab === 'all' ? 'products' : `products/category/${tab}`)
   return response.data
 }
 
-export const getProductsQuery = () =>
+export const getProductsQuery = (tab: string) =>
   useQuery({
-    queryKey: ['products'],
-    queryFn: getProducts,
+    queryKey: ['products', tab],
+    queryFn: () => getProducts(tab),
     select: (data) => data.products,
     // enabled: false,
   })
 
 //   get product by id
 const getProductById = async (id: string) => {
-  const response = await api.get<{
-    products: IProduct[]
-  }>(`products/${id}`)
+  const response = await api.get<IProduct>(`products/${id}`)
   return response.data
 }
+
+export const getProductQuery = (id: string) =>
+  useQuery({
+    queryKey: ['product', id],
+    queryFn: () => getProductById(id),
+  })

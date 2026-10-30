@@ -9,16 +9,16 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as AboutRouteImport } from './routes/about'
+import { Route as AboutsRouteImport } from './routes/abouts'
 import { Route as authSignInRouteImport } from './routes/(auth)/sign-in'
 import { Route as shopIndexRouteImport } from './routes/(shop)/index'
 import { Route as CartIndexRouteImport } from './routes/cart/index'
 import { Route as OrdersIndexRouteImport } from './routes/orders/index'
 import { Route as shopProductsProductIdRouteImport } from './routes/(shop)/products/$productId'
 
-const AboutRoute = AboutRouteImport.update({
-  id: '/about',
-  path: '/about',
+const AboutsRoute = AboutsRouteImport.update({
+  id: '/abouts',
+  path: '/abouts',
   getParentRoute: () => rootRouteImport,
 } as any)
 const authSignInRoute = authSignInRouteImport.update({
@@ -48,7 +48,7 @@ const shopProductsProductIdRoute = shopProductsProductIdRouteImport.update({
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/about': typeof AboutRoute
+  '/abouts': typeof AboutsRoute
   '/sign-in': typeof authSignInRoute
   '/': typeof shopIndexRoute
   '/cart/': typeof CartIndexRoute
@@ -56,7 +56,7 @@ export interface FileRoutesByFullPath {
   '/products/$productId': typeof shopProductsProductIdRoute
 }
 export interface FileRoutesByTo {
-  '/about': typeof AboutRoute
+  '/abouts': typeof AboutsRoute
   '/sign-in': typeof authSignInRoute
   '/': typeof shopIndexRoute
   '/cart': typeof CartIndexRoute
@@ -65,7 +65,7 @@ export interface FileRoutesByTo {
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/about': typeof AboutRoute
+  '/abouts': typeof AboutsRoute
   '/(auth)/sign-in': typeof authSignInRoute
   '/(shop)/': typeof shopIndexRoute
   '/cart/': typeof CartIndexRoute
@@ -75,12 +75,18 @@ export interface FileRoutesById {
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/about' | '/sign-in' | '/' | '/cart/' | '/orders/' | '/products/$productId'
+    | '/abouts'
+    | '/sign-in'
+    | '/'
+    | '/cart/'
+    | '/orders/'
+    | '/products/$productId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/about' | '/sign-in' | '/' | '/cart' | '/orders' | '/products/$productId'
+  to:
+    '/abouts' | '/sign-in' | '/' | '/cart' | '/orders' | '/products/$productId'
   id:
     | '__root__'
-    | '/about'
+    | '/abouts'
     | '/(auth)/sign-in'
     | '/(shop)/'
     | '/cart/'
@@ -89,7 +95,7 @@ export interface FileRouteTypes {
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  AboutRoute: typeof AboutRoute
+  AboutsRoute: typeof AboutsRoute
   authSignInRoute: typeof authSignInRoute
   shopIndexRoute: typeof shopIndexRoute
   CartIndexRoute: typeof CartIndexRoute
@@ -99,11 +105,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
+    '/abouts': {
+      id: '/abouts'
+      path: '/abouts'
+      fullPath: '/abouts'
+      preLoaderRoute: typeof AboutsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(auth)/sign-in': {
@@ -145,7 +151,7 @@ declare module '@tanstack/react-router' {
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  AboutRoute: AboutRoute,
+  AboutsRoute: AboutsRoute,
   authSignInRoute: authSignInRoute,
   shopIndexRoute: shopIndexRoute,
   CartIndexRoute: CartIndexRoute,

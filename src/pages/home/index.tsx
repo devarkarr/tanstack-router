@@ -1,9 +1,21 @@
 import { Skeleton } from '#/components/ui/skeleton'
 import { getProductsQuery } from '#/services/products/queries'
 import { Link } from '@tanstack/react-router'
+import Categories from './components/categories'
+import { useState } from 'react'
+import useSearchQuery from '#/hooks/useSearchQuery'
 
+// interface ICategoryTab {
+//   category: string
+// }
 const HomePage = () => {
-  const { data: products, isPending } = getProductsQuery()
+  const [queryParams, setQueryParam] = useSearchQuery()
+
+  // const navigate = useNavigate()
+
+  const [tab, setTab] = useState(queryParams.category)
+
+  const { data: products, isPending } = getProductsQuery(tab)
 
   // const [products, setProducts] = useState<IProduct[]>([])
   // const [isLoading, setIsLoading] = useState(false)
@@ -19,27 +31,42 @@ const HomePage = () => {
   //   })()
   // }, [])
 
-  return (
-    <div className="grid grid-cols-4 gap-3">
-      {isPending &&
-        new Array(12).fill(0).map((_, idx) => {
-          return <Skeleton key={idx} className="h-40 w-full" />
-        })}
+  const handleCategory = (e: string) => {
+    setTab(e)
 
-      {products?.map((p) => (
-        <div className="" key={p.id}>
-          <Link
-            to="/products/$productId"
-            params={{
-              productId: `${p.id}`,
-            }}
-          >
-            <img src={p.thumbnail} className="size-28" alt="" />
-            <p className="text-lg">{p.title}</p>
-          </Link>
-        </div>
-      ))}
-    </div>
+    setQueryParam({ category: e })
+
+    // navigate({
+    //   to: '/',
+    //   search: { category: e },
+    // })
+  }
+
+  return (
+    <>
+      <Categories tab={tab} handleCategory={handleCategory} />
+
+      <div className="grid grid-cols-4 gap-3">
+        {isPending &&
+          new Array(12).fill(0).map((_, idx) => {
+            return <Skeleton key={idx} className="h-40 w-full" />
+          })}
+
+        {products?.map((p) => (
+          <div className="" key={p.id}>
+            <Link
+              to="/products/$productId"
+              params={{
+                productId: `${p.id}`,
+              }}
+            >
+              <img src={p.thumbnail} className="size-28" alt="" />
+              <p className="text-lg">{p.title}</p>
+            </Link>
+          </div>
+        ))}
+      </div>
+    </>
   )
 }
 
