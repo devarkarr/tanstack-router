@@ -10,6 +10,7 @@ import { TanStackDevtools } from '@tanstack/react-devtools'
 import '../styles.css'
 import Header from '#/components/layouts/header'
 import type { QueryClient } from '@tanstack/react-query'
+import { Toaster } from '@/components/ui/toast'
 
 interface MyRouterContext {
   queryClient: QueryClient
@@ -24,6 +25,7 @@ function RootComponent() {
     <>
       <Header />
       <Outlet />
+      <Toaster />
       <TanStackDevtools
         config={{
           position: 'bottom-right',

@@ -10,7 +10,8 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as AboutsRouteImport } from './routes/abouts'
-import { Route as authSignInRouteImport } from './routes/(auth)/sign-in'
+import { Route as authLoginRouteImport } from './routes/(auth)/login'
+import { Route as authRegisterRouteImport } from './routes/(auth)/register'
 import { Route as shopIndexRouteImport } from './routes/(shop)/index'
 import { Route as CartIndexRouteImport } from './routes/cart/index'
 import { Route as OrdersIndexRouteImport } from './routes/orders/index'
@@ -21,9 +22,14 @@ const AboutsRoute = AboutsRouteImport.update({
   path: '/abouts',
   getParentRoute: () => rootRouteImport,
 } as any)
-const authSignInRoute = authSignInRouteImport.update({
-  id: '/(auth)/sign-in',
-  path: '/sign-in',
+const authLoginRoute = authLoginRouteImport.update({
+  id: '/(auth)/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const authRegisterRoute = authRegisterRouteImport.update({
+  id: '/(auth)/register',
+  path: '/register',
   getParentRoute: () => rootRouteImport,
 } as any)
 const shopIndexRoute = shopIndexRouteImport.update({
@@ -49,7 +55,8 @@ const shopProductsProductIdRoute = shopProductsProductIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/abouts': typeof AboutsRoute
-  '/sign-in': typeof authSignInRoute
+  '/login': typeof authLoginRoute
+  '/register': typeof authRegisterRoute
   '/': typeof shopIndexRoute
   '/cart/': typeof CartIndexRoute
   '/orders/': typeof OrdersIndexRoute
@@ -57,7 +64,8 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/abouts': typeof AboutsRoute
-  '/sign-in': typeof authSignInRoute
+  '/login': typeof authLoginRoute
+  '/register': typeof authRegisterRoute
   '/': typeof shopIndexRoute
   '/cart': typeof CartIndexRoute
   '/orders': typeof OrdersIndexRoute
@@ -66,7 +74,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/abouts': typeof AboutsRoute
-  '/(auth)/sign-in': typeof authSignInRoute
+  '/(auth)/login': typeof authLoginRoute
+  '/(auth)/register': typeof authRegisterRoute
   '/(shop)/': typeof shopIndexRoute
   '/cart/': typeof CartIndexRoute
   '/orders/': typeof OrdersIndexRoute
@@ -76,18 +85,26 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/abouts'
-    | '/sign-in'
+    | '/login'
+    | '/register'
     | '/'
     | '/cart/'
     | '/orders/'
     | '/products/$productId'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/abouts' | '/sign-in' | '/' | '/cart' | '/orders' | '/products/$productId'
+    | '/abouts'
+    | '/login'
+    | '/register'
+    | '/'
+    | '/cart'
+    | '/orders'
+    | '/products/$productId'
   id:
     | '__root__'
     | '/abouts'
-    | '/(auth)/sign-in'
+    | '/(auth)/login'
+    | '/(auth)/register'
     | '/(shop)/'
     | '/cart/'
     | '/orders/'
@@ -96,7 +113,8 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   AboutsRoute: typeof AboutsRoute
-  authSignInRoute: typeof authSignInRoute
+  authLoginRoute: typeof authLoginRoute
+  authRegisterRoute: typeof authRegisterRoute
   shopIndexRoute: typeof shopIndexRoute
   CartIndexRoute: typeof CartIndexRoute
   OrdersIndexRoute: typeof OrdersIndexRoute
@@ -112,11 +130,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/(auth)/sign-in': {
-      id: '/(auth)/sign-in'
-      path: '/sign-in'
-      fullPath: '/sign-in'
-      preLoaderRoute: typeof authSignInRouteImport
+    '/(auth)/login': {
+      id: '/(auth)/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof authLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/(auth)/register': {
+      id: '/(auth)/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof authRegisterRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/(shop)/': {
@@ -152,7 +177,8 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   AboutsRoute: AboutsRoute,
-  authSignInRoute: authSignInRoute,
+  authLoginRoute: authLoginRoute,
+  authRegisterRoute: authRegisterRoute,
   shopIndexRoute: shopIndexRoute,
   CartIndexRoute: CartIndexRoute,
   OrdersIndexRoute: OrdersIndexRoute,
