@@ -11,9 +11,11 @@ import '../styles.css'
 import Header from '#/components/layouts/header'
 import type { QueryClient } from '@tanstack/react-query'
 import { Toaster } from '@/components/ui/toast'
+import type { IAuthStore } from '#/stores/useAuthStore'
 
 interface MyRouterContext {
   queryClient: QueryClient
+  auth: IAuthStore
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({

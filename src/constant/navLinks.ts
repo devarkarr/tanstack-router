@@ -14,7 +14,7 @@ const navLinks = [
   },
   {
     title: 'Sign in',
-    link: '/sign-in', // localhost:3000/sign-in
+    link: '/login', // localhost:3000/sign-in
   },
 ]
 

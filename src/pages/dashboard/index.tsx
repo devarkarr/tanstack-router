@@ -1,12 +1,11 @@
-import { meQueryOptions } from '#/services/auth/queries'
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import useAuthStore from '#/stores/useAuthStore'
 
 const DashboardPage = () => {
-  const { data } = useSuspenseQuery(meQueryOptions)
+  const { user } = useAuthStore()
   return (
     <div>
-      <p className="text-2xl">{data.username}</p>
-    <p className="text-2xl">{data.email}</p>
+      <p className="text-2xl">{user?.username}</p>
+      <p className="text-2xl">{user?.email}</p>
     </div>
   )
 }

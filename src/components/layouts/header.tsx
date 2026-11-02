@@ -9,16 +9,14 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar'
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { meQueryOptions } from '#/services/auth/queries'
-import Cookies from 'js-cookie'
+import useAuthStore from '#/stores/useAuthStore'
 
 const Header = () => {
-  // const { data } = useSuspenseQuery(meQueryOptions)
+  const { isAuthenticated, clearInfo, user } = useAuthStore()
   const navigate = useNavigate()
 
   const logout = () => {
-    Cookies.remove('token')
+    clearInfo()
     navigate({ to: '/login' })
   }
   return (
@@ -31,7 +29,7 @@ const Header = () => {
         ))}
       </ul>
 
-      {/* {false && (
+      {isAuthenticated && (
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Avatar>
@@ -41,13 +39,15 @@ const Header = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuGroup>
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuItem>Dashboard</DropdownMenuItem>
+              <DropdownMenuLabel>{user?.email}</DropdownMenuLabel>
+              <DropdownMenuItem>
+                <Link to="/dashboard">Dashboard</Link>
+              </DropdownMenuItem>
               <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
             </DropdownMenuGroup>
           </DropdownMenuContent>
         </DropdownMenu>
-      )} */}
+      )}
     </header>
   )
 }

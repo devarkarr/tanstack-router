@@ -2,6 +2,7 @@ import ReactDOM from 'react-dom/client'
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { routeTree } from './routeTree.gen'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import useAuthStore from './stores/useAuthStore'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,6 +22,7 @@ const router = createRouter({
   scrollRestoration: true,
   context: {
     queryClient,
+    auth: undefined!,
   },
 })
 
@@ -30,6 +32,11 @@ declare module '@tanstack/react-router' {
   }
 }
 
+const App = () => {
+  const auth = useAuthStore()
+  return <RouterProvider router={router} context={{ auth }} />
+}
+
 const rootElement = document.getElementById('app')!
 
 if (!rootElement.innerHTML) {
@@ -37,7 +44,7 @@ if (!rootElement.innerHTML) {
 
   root.render(
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
+      <App />
     </QueryClientProvider>,
   )
 }

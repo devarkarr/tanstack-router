@@ -1,9 +1,8 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
-import Cookie from 'js-cookie'
 
 export const Route = createFileRoute('/(auth)')({
-  beforeLoad: () => {
-    const token = Cookie.get('token')
+  beforeLoad: ({ context: { auth } }) => {
+    const token = auth.token
     if (token) {
       throw redirect({ to: '/dashboard' })
     }

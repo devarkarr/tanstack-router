@@ -1,15 +1,9 @@
-import {
-  createFileRoute,
-  Outlet,
-  redirect,
-  useNavigate,
-} from '@tanstack/react-router'
-import Cookies from 'js-cookie'
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
 import { meQueryOptions } from '#/services/auth/queries'
 
 export const Route = createFileRoute('/_authenticated')({
-  beforeLoad: async ({ context: { queryClient } }) => {
-    const token = Cookies.get('token')
+  beforeLoad: async ({ context: { queryClient, auth } }) => {
+    const token = auth.token
     if (!token) {
       throw redirect({ to: '/login' })
     }
@@ -17,7 +11,7 @@ export const Route = createFileRoute('/_authenticated')({
     try {
       await queryClient.ensureQueryData(meQueryOptions)
     } catch (error) {
-      Cookies.remove('token')
+      auth.clearInfo()
       throw redirect({ to: '/login' })
     }
   },
