@@ -1,6 +1,7 @@
 import path from 'path'
 import { defineConfig } from 'vite'
 import { devtools } from '@tanstack/devtools-vite'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 
 import { tanstackRouter } from '@tanstack/router-plugin/vite'
 
@@ -19,6 +20,7 @@ const config = defineConfig({
     tailwindcss(),
     tanstackRouter({ target: 'react', autoCodeSplitting: true }),
     viteReact(),
+    nodePolyfills({ include: ['domain'] }),
   ],
 })
 
