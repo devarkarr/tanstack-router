@@ -25,7 +25,6 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 function RootComponent() {
   return (
     <>
-      <Header />
       <Outlet />
       <Toaster />
       <TanStackDevtools

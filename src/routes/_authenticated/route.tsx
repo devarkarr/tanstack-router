@@ -1,5 +1,6 @@
-import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
+import { createFileRoute, redirect } from '@tanstack/react-router'
 import { meQueryOptions } from '#/services/auth/queries'
+import AuthLayout from '#/components/layouts/auth-layout'
 
 export const Route = createFileRoute('/_authenticated')({
   beforeLoad: async ({ context: { queryClient, auth } }) => {
@@ -15,11 +16,5 @@ export const Route = createFileRoute('/_authenticated')({
       throw redirect({ to: '/login' })
     }
   },
-  component: RouteComponent,
+  component: AuthLayout,
 })
-
-function RouteComponent() {
-  //   const { isError } = useMeQuery()
-
-  return <Outlet />
-}

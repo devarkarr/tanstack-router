@@ -2,6 +2,7 @@ const navLinks = [
   {
     title: 'Shop',
     link: '/',
+
     // localhost:3000/
   },
   {
@@ -15,6 +16,13 @@ const navLinks = [
   {
     title: 'Sign in',
     link: '/login', // localhost:3000/sign-in
+  },
+]
+
+export const authLinks = [
+  {
+    title: 'Users',
+    link: '/users',
   },
 ]
 
