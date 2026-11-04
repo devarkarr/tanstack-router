@@ -1,49 +1,105 @@
 import { Button } from '#/components/ui/button'
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '#/components/ui/card'
+import {
+  Field,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from '#/components/ui/field'
+import { Input } from '#/components/ui/input'
+
 import { useLoginMutation } from '#/services/auth/mutations'
-import type { ILoginPayload } from '#/services/auth/type'
-import React, { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import z from 'zod'
 
-type Props = {}
+const formSchema = z.object({
+  email: z.string().email({ message: 'Invalid email address' }),
+  // { message: 'Invalid email address' }
+  password: z.string().min(6),
+})
 
-const Login = (props: Props) => {
-  const [formData, setFormData] = useState<ILoginPayload>({
-    email: '',
-    password: '',
+const Login = () => {
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   })
 
   const login = useLoginMutation()
+  function onSubmit(data: z.infer<typeof formSchema>) {
+    login.mutate(data)
+  }
 
   return (
-    <>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault()
-          login.mutate(formData)
-        }}
-      >
-        <div>
-          <input
-            type="email"
-            placeholder="Email"
-            value={formData.email}
-            onChange={(e) => {
-              setFormData((prev) => ({ ...prev, email: e.target.value }))
-            }}
-          />
-        </div>
-        <div>
-          <input
-            type="password"
-            placeholder="Password"
-            value={formData.password}
-            onChange={(e) => {
-              setFormData((prev) => ({ ...prev, password: e.target.value }))
-            }}
-          />
-        </div>
-        <Button type="submit">Login</Button>
-      </form>
-    </>
+    <div className="flex justify-center">
+      <Card className="w-full sm:max-w-md mt-7">
+        <CardHeader>
+          <CardTitle>Login</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form id="form-rhf-demo" onSubmit={form.handleSubmit(onSubmit)}>
+            <FieldGroup>
+              <Controller
+                name="email"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="form-rhf-demo-title">Email</FieldLabel>
+
+                    <Input
+                      {...field}
+                      id="form-rhf-demo-title"
+                      aria-invalid={fieldState.invalid}
+                      placeholder="email@gmail.com"
+                      autoComplete="off"
+                    />
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+              <Controller
+                name="password"
+                control={form.control}
+                render={({ field, fieldState }) => (
+                  <Field data-invalid={fieldState.invalid}>
+                    <FieldLabel htmlFor="form-rhf-demo-description">
+                      Password
+                    </FieldLabel>
+                    <Input
+                      {...field}
+                      id="form-rhf-demo-title"
+                      aria-invalid={fieldState.invalid}
+                      placeholder="*********"
+                      autoComplete="off"
+                    />
+
+                    {fieldState.invalid && (
+                      <FieldError errors={[fieldState.error]} />
+                    )}
+                  </Field>
+                )}
+              />
+            </FieldGroup>
+          </form>
+        </CardContent>
+        <CardFooter>
+          <Button type="submit" form="form-rhf-demo">
+            Login
+          </Button>
+        </CardFooter>
+      </Card>
+    </div>
   )
 }
 

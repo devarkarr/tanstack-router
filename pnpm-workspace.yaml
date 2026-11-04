@@ -1,4 +1,5 @@
 allowBuilds:
   esbuild: true
   lightningcss: true
+  pnpm: set this to true or false
   unrs-resolver: set this to true or false

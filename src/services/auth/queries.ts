@@ -8,7 +8,7 @@ import { meSchema } from './schema'
 const me = async () => {
   const token = Cookie.get('token')
 
-  const response = await axios.get('http://localhost:3001/api/auth/me', {
+  const response = await axios.get('http://118.27.148.199:3080/api/auth/me', {
     headers: {
       Authorization: `Bearer ${token}`,
     },
