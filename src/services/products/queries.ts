@@ -1,6 +1,10 @@
 import { useQuery } from '@tanstack/react-query'
 import api from '../api'
-import { productsSchema, productsValidation } from './schema'
+import {
+  productsSchema,
+  productsSchemaWihMeta,
+  productsValidation,
+} from './schema'
 
 // get products
 const getProducts = async (tab: string) => {
@@ -14,6 +18,20 @@ export const getProductsQuery = (tab: string) =>
   useQuery({
     queryKey: ['products', tab],
     queryFn: () => getProducts(tab),
+    // select: (data) => data,
+    // enabled: false,
+  })
+
+// get products by pagination
+const getProductsbyPagination = async (page: number) => {
+  const response = await api.get(`products?limit=10&skip=${page}`)
+  return productsSchemaWihMeta.parse(response.data)
+}
+
+export const getProductsPaginationQuery = (page: number) =>
+  useQuery({
+    queryKey: ['products-pagination', page],
+    queryFn: () => getProductsbyPagination(page),
     // select: (data) => data,
     // enabled: false,
   })

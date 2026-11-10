@@ -19,6 +19,7 @@ import { Route as AppauthRegisterRouteImport } from './routes/_app/(auth)/regist
 import { Route as AppshopIndexRouteImport } from './routes/_app/(shop)/index'
 import { Route as AppCartIndexRouteImport } from './routes/_app/cart/index'
 import { Route as AppOrdersIndexRouteImport } from './routes/_app/orders/index'
+import { Route as AppTableIndexRouteImport } from './routes/_app/table/index'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard/index'
 import { Route as AuthenticatedUsersIndexRouteImport } from './routes/_authenticated/users/index'
 import { Route as AppshopProductsProductIdRouteImport } from './routes/_app/(shop)/products/$productId'
@@ -70,6 +71,11 @@ const AppOrdersIndexRoute = AppOrdersIndexRouteImport.update({
   path: '/orders/',
   getParentRoute: () => AppRouteRoute,
 } as any)
+const AppTableIndexRoute = AppTableIndexRouteImport.update({
+  id: '/table/',
+  path: '/table/',
+  getParentRoute: () => AppRouteRoute,
+} as any)
 const AuthenticatedDashboardIndexRoute =
   AuthenticatedDashboardIndexRouteImport.update({
     id: '/dashboard/',
@@ -96,6 +102,7 @@ export interface FileRoutesByFullPath {
   '/register': typeof AppauthRegisterRoute
   '/cart/': typeof AppCartIndexRoute
   '/orders/': typeof AppOrdersIndexRoute
+  '/table/': typeof AppTableIndexRoute
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/users/': typeof AuthenticatedUsersIndexRoute
   '/products/$productId': typeof AppshopProductsProductIdRoute
@@ -107,6 +114,7 @@ export interface FileRoutesByTo {
   '/register': typeof AppauthRegisterRoute
   '/cart': typeof AppCartIndexRoute
   '/orders': typeof AppOrdersIndexRoute
+  '/table': typeof AppTableIndexRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
   '/users': typeof AuthenticatedUsersIndexRoute
   '/products/$productId': typeof AppshopProductsProductIdRoute
@@ -123,6 +131,7 @@ export interface FileRoutesById {
   '/_app/(shop)/': typeof AppshopIndexRoute
   '/_app/cart/': typeof AppCartIndexRoute
   '/_app/orders/': typeof AppOrdersIndexRoute
+  '/_app/table/': typeof AppTableIndexRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/_authenticated/users/': typeof AuthenticatedUsersIndexRoute
   '/_app/(shop)/products/$productId': typeof AppshopProductsProductIdRoute
@@ -137,6 +146,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/cart/'
     | '/orders/'
+    | '/table/'
     | '/dashboard/'
     | '/users/'
     | '/products/$productId'
@@ -148,6 +158,7 @@ export interface FileRouteTypes {
     | '/register'
     | '/cart'
     | '/orders'
+    | '/table'
     | '/dashboard'
     | '/users'
     | '/products/$productId'
@@ -163,6 +174,7 @@ export interface FileRouteTypes {
     | '/_app/(shop)/'
     | '/_app/cart/'
     | '/_app/orders/'
+    | '/_app/table/'
     | '/_authenticated/dashboard/'
     | '/_authenticated/users/'
     | '/_app/(shop)/products/$productId'
@@ -245,6 +257,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppOrdersIndexRouteImport
       parentRoute: typeof AppRouteRoute
     }
+    '/_app/table/': {
+      id: '/_app/table/'
+      path: '/table'
+      fullPath: '/table/'
+      preLoaderRoute: typeof AppTableIndexRouteImport
+      parentRoute: typeof AppRouteRoute
+    }
     '/_authenticated/dashboard/': {
       id: '/_authenticated/dashboard/'
       path: '/dashboard'
@@ -289,6 +308,7 @@ interface AppRouteRouteChildren {
   AppshopIndexRoute: typeof AppshopIndexRoute
   AppCartIndexRoute: typeof AppCartIndexRoute
   AppOrdersIndexRoute: typeof AppOrdersIndexRoute
+  AppTableIndexRoute: typeof AppTableIndexRoute
   AppshopProductsProductIdRoute: typeof AppshopProductsProductIdRoute
 }
 
@@ -298,6 +318,7 @@ const AppRouteRouteChildren: AppRouteRouteChildren = {
   AppshopIndexRoute: AppshopIndexRoute,
   AppCartIndexRoute: AppCartIndexRoute,
   AppOrdersIndexRoute: AppOrdersIndexRoute,
+  AppTableIndexRoute: AppTableIndexRoute,
   AppshopProductsProductIdRoute: AppshopProductsProductIdRoute,
 }
 

@@ -8,7 +8,7 @@ import { authApi } from '../api'
 
 // register
 const register = async (payload: IRegisterPayload) => {
-  const response = await authApi.post(
+  const response = await axios.post(
     'http://118.27.148.199:3080/api/auth/register',
     payload,
   )

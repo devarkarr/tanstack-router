@@ -37,7 +37,7 @@ export const productsValidation = z.object({
   dimensions: VDimension,
   warrantyInformation: z.string(),
   shippingInformation: z.string(),
-  availabilityStatus: z.string(),
+  availabilityStatus: z.enum(['In Stock', 'Out of Stock', 'Low Stock']),
   reviews: z.array(VReview),
   returnPolicy: z.string(),
   minimumOrderQuantity: z.number(),
@@ -47,3 +47,10 @@ export const productsValidation = z.object({
 })
 
 export const productsSchema = z.array(productsValidation)
+
+export const productsSchemaWihMeta = z.object({
+  limit: z.number(),
+  products: productsSchema,
+  skip: z.number(),
+  total: z.number(),
+})
