@@ -10,11 +10,19 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '#/components/ui/dropdown-menu'
 import { Button } from '#/components/ui/button'
 import { Eye, MoreHorizontal, Pencil, Trash } from 'lucide-react'
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from '#/components/ui/dialog'
+import { useState } from 'react'
+import EditProductSheet from './edit-product-sheet'
 
 // Use `accessor` for data columns and `display` for columns without one.
 const columnHelper = createColumnHelper<DataTableFeatures, IProduct>()
@@ -39,6 +47,10 @@ const columns = columnHelper.columns([
   }),
   columnHelper.accessor('brand', {
     header: 'Brand',
+    cell: ({ row }) => {
+      const brand = row.original.brand
+      return <p> {brand ?? 'N/A'}</p>
+    },
   }),
 
   columnHelper.accessor('tags', {
@@ -96,33 +108,58 @@ const columns = columnHelper.columns([
     cell: ({ row }) => {
       const product = row.original
 
+      const [opened, setOpen] = useState(false)
+      const [sheetOpened, setSheetOpen] = useState(false)
+
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger
-            render={<Button variant="ghost" className="h-8 w-8 p-0" />}
-          >
-            <span className="sr-only">Open menu</span>
-            <MoreHorizontal className="h-4 w-4" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuGroup>
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => alert(`Viewing product: ${product.title}`)}
-              >
-                <Eye className="text-yellow-200" /> View
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Pencil />
-                Edit
-              </DropdownMenuItem>
-              <DropdownMenuItem variant="destructive">
-                <Trash />
-                Delete
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={<Button variant="ghost" className="h-8 w-8 p-0" />}
+            >
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuGroup>
+                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuItem
+                  onClick={() => setOpen(true)}
+                  // onClick={() => alert(`Viewing product: ${product.title}`)}
+                >
+                  <Eye /> View
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => setSheetOpen(true)}>
+                  <Pencil />
+                  Edit
+                </DropdownMenuItem>
+                <DropdownMenuItem variant="destructive">
+                  <Trash />
+                  Delete
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          {opened && (
+            <Dialog open={opened} onOpenChange={() => setOpen(false)}>
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>{product.title}</DialogTitle>
+                  <DialogDescription>{product.description}</DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
+          )}
+
+          {sheetOpened && (
+            <EditProductSheet
+              product={product}
+              open={sheetOpened}
+              onChange={(open) => setSheetOpen(open)}
+            />
+          )}
+        </>
       )
     },
   }),

@@ -13,6 +13,8 @@ import {
 import { features } from './data-table-features'
 import type { DataTableFeatures } from './data-table-features'
 import { Button } from '#/components/ui/button'
+import { Loader } from 'lucide-react'
+import { Skeleton } from '#/components/ui/skeleton'
 
 interface DataTableProps<TData extends RowData> {
   columns: ColumnDef<DataTableFeatures, TData>[]
@@ -20,6 +22,7 @@ interface DataTableProps<TData extends RowData> {
   pageCount: number
   onPaginationChange: (p: number) => void
   pageIndex: number
+  isLoading: boolean
 }
 
 function DataTable<TData extends RowData>({
@@ -28,6 +31,7 @@ function DataTable<TData extends RowData>({
   pageCount,
   onPaginationChange,
   pageIndex,
+  isLoading,
 }: DataTableProps<TData>) {
   const table = useTable({
     features,
@@ -70,29 +74,38 @@ function DataTable<TData extends RowData>({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      <table.FlexRender cell={cell} />
-                    </TableCell>
-                  ))}
+            {isLoading &&
+              new Array(10).fill(null).map((_, index) => (
+                <TableRow key={index}>
+                  <TableCell colSpan={columns.length} className="h-12.5">
+                    <Skeleton className="w-full h-full" />
+                  </TableCell>
                 </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
+              ))}
+
+            {table.getRowModel().rows.length
+              ? table.getRowModel().rows.map((row) => (
+                  <TableRow
+                    key={row.id}
+                    data-state={row.getIsSelected() && 'selected'}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        <table.FlexRender cell={cell} />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              : !isLoading && (
+                  <TableRow>
+                    <TableCell
+                      colSpan={columns.length}
+                      className="h-24 text-center"
+                    >
+                      No results.
+                    </TableCell>
+                  </TableRow>
+                )}
           </TableBody>
         </Table>
       </div>

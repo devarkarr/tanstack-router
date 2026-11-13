@@ -5,7 +5,7 @@ import DataTable from './components/data-table'
 
 const TablePage = () => {
   const [page, setPage] = useState(0)
-  const { data } = getProductsPaginationQuery(page * 10)
+  const { data, isPending, isError } = getProductsPaginationQuery(page * 10)
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -15,6 +15,7 @@ const TablePage = () => {
         pageCount={data?.total ? Math.floor(data.total / 10) : 0}
         pageIndex={page}
         onPaginationChange={(p) => setPage(p)}
+        isLoading={isPending || isError}
       />
     </div>
   )
